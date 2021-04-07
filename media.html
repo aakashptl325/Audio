@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .buffered {
+                height: 20px;
+                position: relative;
+                background: #555;
+                width: 300px;
+            }
+    
+            #buffered-amount {
+                display: block;
+                height: 100%;
+                background-color: #777;
+                width: 0;
+            }
+    
+            .progress {
+                margin-top: -20px;
+                height: 20px;
+                position: relative;
+                width: 300px;
+            }
+    
+            #progress-amount {
+                display: block;
+                height: 100%;
+                background-color: #595;
+                width: 0;
+            }
+        </style>
+
+
+
+        <!-- <div id="waveform"></div> -->
+
+
+
+        <script type="text/javascript">
+
+            function onLoad() {
+                var sec = parseInt(document.location.search.substr(1));
+                
+                if (!isNaN(sec))
+                    mainPlayer.currentTime = sec;
+            }
+        
+        </script>
+<title>Partial Content Demonstration</title>
+    </head>
+    <body>
+        <h3>Partial Content Demonstration</h3>
+        <hr />
+        <audio id="mainPlayer" width="640" height="360" 
+            autoplay="autoplay" controls="controls" controlsList="nodownload" onloadeddata="onLoad()">
+            <source src="http://localhost:56512/api/media/play?f=JaanBanGaye.flac" />
+        </audio>
+        
+        
+        
+        <div id="waveform"></div>
+
+        <script>
+            
+        </script>
+        
+        
+        <div class="buffered">
+            <span id="buffered-amount"></span>
+        </div>
+        <div class="progress">
+            <span id="progress-amount"></span>
+        </div>
+        <script>
+            window.onload = function () {
+    
+                var myAudio = document.getElementById('mainPlayer');
+    
+                myAudio.addEventListener('progress', function () {
+                    var bufferedEnd = myAudio.buffered.end(myAudio.buffered.length - 1);
+                    var duration = myAudio.duration;
+                    if (duration > 0) {
+                        document.getElementById('buffered-amount').style.width = ((bufferedEnd / duration) * 100) + "%";
+                    }
+                });
+    
+                myAudio.addEventListener('timeupdate', function () {
+                    var duration = myAudio.duration;
+                    if (duration > 0) {
+                        document.getElementById('progress-amount').style.width = ((myAudio.currentTime / duration) * 100) + "%";
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
